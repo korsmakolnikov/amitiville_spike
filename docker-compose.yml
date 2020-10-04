@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  application:
+    build: .
+    volumes:
+      - "~/.ssh:/home/app/.ssh"
+      - "~/.aws:/home/app/.aws"
+      - .:$PWD
+    ports:
+      - 130:3000
+    depends_on:
+      - postgres
+    working_dir: $PWD
+    environment:
+      ENV: "dev"
+      ERL_AFLAGS: "-kernel shell_history enabled"
+
+  postgres:
+    image: postgres:11-alpine
+    ports:
+      - 5442:5432
+    environment:
+      POSTGRES_PASSWORD: amitiville
+      POSTGRES_USER: amitiville
+
